@@ -1,6 +1,6 @@
 <!--create a new section-->
 <template>
-  <v-card color="blue-grey lighten-2">
+  <v-card color="indigo lighten-3">
     <v-card-title primary-title>
       <div class="headline">
         New Section
