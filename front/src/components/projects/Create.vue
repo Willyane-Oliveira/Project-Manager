@@ -87,9 +87,9 @@ export default {
       validation: {
         title: [
           (v) => !!v || "Title is mandatory"
-          ],
-      },
-    };
+          ]
+      }
+    }
   },
   methods:{
     submit(){
@@ -98,5 +98,5 @@ export default {
       this.$store.dispatch('projects/create', this.data);
     }
   }
-};
+}
 </script>

@@ -45,7 +45,11 @@ export default {
   },
   methods:{
     submit(){
-      console.log(this.data);
+      this.data.project_id = this.$route.params.id;
+      this.data.user_id = 1;
+      this.$store.dispatch('sections/create', this.data).then((res) => {
+        this.$refs.form.reset();
+      })
     }
   }
 }

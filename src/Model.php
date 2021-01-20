@@ -22,7 +22,7 @@ abstract class Model
 
     if(!$this->table){
       $table = explode('\\', \get_called_class());//explode the called class
-      $table = array_pop($table);//Pop the element off the end of array
+      $table = array_pop($table);//Pick the element up from the end of array
       $this->table = \strtolower($table);//Make a string lowercase
     }
   }

@@ -2,6 +2,7 @@
 <template>
   <v-dialog
     v-model="dialog"
+    fullscreen
     scrollable
     >
     <v-card>
@@ -9,10 +10,13 @@
         <v-btn icon dark @click.native="dialog = false">
           <v-icon>close</v-icon>
         </v-btn>
-        <v-toolbar-title>Task {{ n }}</v-toolbar-title>
+        <v-toolbar-title>{{ task.title }}</v-toolbar-title>
       </v-toolbar>
       <v-card-text>
-        <h3>Task details</h3>
+        {{ task }}
+        <p v-if="task.description">{{ task.description }}</p>
+        <p v-if="task.due_date">{{ task.due_date }}</p>
+        <p> {{ task.done == 1 ? 'Completed Task' : 'In progress' }}</p>
       </v-card-text>
     </v-card>
   </v-dialog>
@@ -22,16 +26,16 @@
 import { eventHub } from '../../eventHub';
 
 export default {
-  data(){
+  data() {
     return{
       dialog: false,
-      n: 0
+      task: {}
     }
   },
-  mounted(){
+  mounted() {
     eventHub.$on('open-task', (n) => {
       this.dialog = true;
-      this.n = n;
+      this.task = task;
     });
   }
 }

@@ -2,27 +2,25 @@
 <template>
   <v-layout id="sections-container" row>
 
-    <v-flex xs3 v-for="n in 3" :key="n">
+    <v-flex xs3 v-for="section in sections" :key="section.id">
       <v-card color="deep-purple lighten-4">
         <v-card-title primary-title class="deep-purple darken-4 white--text">
-          <div class="headline">Section {{ n }}</div>
+          <div class="headline">{{ section.title }}</div>
         </v-card-title>
         <v-card-text>
-          About section
+          {{ section.description }}
         </v-card-text>
         <v-card-text>
-          <tasks/> <!--List tasks-->
+          <tasks :section="section.id"/>
         </v-card-text>
         <v-card-text>
-          <create-task/> <!--Create new tasks-->
+          <create-task :section="section.id"/>
         </v-card-text>
       </v-card>
     </v-flex>
-
     <v-flex xs3>
-      <create/><!--Create a new section-->
+      <create/>
     </v-flex>
-
   </v-layout>
 </template>
 
@@ -32,10 +30,18 @@ import tasks from '../tasks/List';
 import tasksCreate from '../tasks/Create';
 
 export default {
-  components:{
+  computed: {
+    sections() {
+      return this.$store.state.sections.all;
+    }
+  },
+  components: {
     create,
     tasks,
     'create-task': tasksCreate
+  },
+  mounted() {
+    this.$store.dispatch('sections/getAll', this.$route.params.id);
   }
 }
 </script>

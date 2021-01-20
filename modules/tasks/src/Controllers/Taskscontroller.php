@@ -2,10 +2,18 @@
 
 namespace projectmanager\Tasks\Controllers;
 
-class Taskscontroller
+use projectmanager\CrudController;
+
+class TasksController extends CrudController
 {
-  public function index()
+  protected function getModel(): string
   {
-    return 'Tasks List';
+    return 'tasks_model';
+  }
+
+  public function listByProject($c, $request)
+  {
+    $id = $request->query->get('id');
+    return $c['tasks_model']->getByProjectId($id);
   }
 }

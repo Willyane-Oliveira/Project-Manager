@@ -2,9 +2,9 @@
 <template>
   <v-layout row wrap>
     <v-flex xs12>
-      <h2 class="mb-2">Project Name</h2>
+      <h2 class="mb-2">{{ project.title }}</h2>
 
-      <p>About project</p>
+      <p>{{ project.description }}</p>
     </v-flex>
 
     <sections/>
@@ -20,12 +20,18 @@
 
 <script>
 import sections from '../sections/List';
-import showTasks from '../tasks/Show';
+import showTask from '../tasks/Show';
 
 export default {
+  computed: {
+    project(){
+      const id = this.$route.params.id;
+      return this.$store.getters['projects/byId'](id);
+    }
+  },
   components:{
     sections,
-    'show-task': showTasks
+    'show-task': showTask
   }
 }
 </script>

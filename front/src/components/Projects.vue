@@ -5,7 +5,7 @@
     </v-flex>
 
     <v-container grid-list-md>
-      <router-view></router-view> <!--children route. See Index.js-->
+      <router-view></router-view>
     </v-container>
 
   </v-layout>
@@ -18,10 +18,10 @@ export default {
       message: "Project Manager",
     };
   },
-  mounted() {
-    console.log("we are already");
-  },
-};
+  mounted(){
+    this.$store.dispatch('projects/getAll');
+  }
+}
 </script>
 
 <style>

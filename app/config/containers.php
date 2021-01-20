@@ -7,18 +7,19 @@ $container['events'] = function () {
 $container['settings'] = function () {
   return [
     'db' => [
-      'dsn' => 'mysql:host=localhost',
+      'dsn' => 'mysql:host=localhost;',
       'database' => 'project_manager',
       'username' => 'root',
       'password' => 'pass1234!',
       'options' => [
-        \PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8']//utf8 prevents character breakage
+        \PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8'
+      ]
     ]
   ];
 };
 
 $container['db'] = function ($c) {
-  $dsn = $c['settings']['db']['dsn'] . ';dbname=' . $c['settings']['db']['database'];
+  $dsn = $c['settings']['db']['dsn'] . 'dbname=' . $c['settings']['db']['database'];
   $username = $c['settings']['db']['username'];
   $password = $c['settings']['db']['password'];
   $options = $c['settings']['db']['options'];
