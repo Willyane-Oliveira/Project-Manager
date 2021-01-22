@@ -63,6 +63,7 @@ class App
 
     return $this->container['responder'];
   }
+
   //will handle errors
   public function getHttpErrorHandler()
   {
@@ -83,43 +84,44 @@ class App
   }
 
   public function run()
-  {
-    try {
-      $result = $this->getRouter()->run();
+    {
+        try {
+            $result = $this->getRouter()->run();
 
-      $response = $this->getResponder();
-      $params = [
-        'container' => $this->container,
-        'params' => $result['params'],
-      ];
+            $response = $this->getResponder();
+            $params = [
+                'container' => $this->container,
+                'params' => $result['params'],
+            ];
 
-      foreach ($this->middlewares['before'] as $middleware) {
-        $middleware($this->container);
-      }
+            foreach ($this->middlewares['before'] as $middleware) {
+                $middleware($this->container);
+            }
 
-      $response($result['action'], $params);
+            $response($result['action'], $params);
 
-      foreach ($this->middlewares['after'] as $middleware) {
-        $middleware($this->container);
-      }
-    } catch (HttpException $e) {
-      $this->container['exception'] = $e;
-      echo $this->getHttpErrorHandler();
-    }
-  }
+            foreach ($this->middlewares['after'] as $middleware) {
+                $middleware($this->container);
+            }
 
-  private function loadRegistry($modules)
-  {
-    $registry = new ModuleRegistry;
-
-    $registry->setApp($this);
-    $registry->setComposer($this->composer);
-
-    foreach($modules as $file => $module){
-      require $file;
-      $registry->add(new $module);
+        } catch (HttpException $e) {
+            $this->container['exception'] = $e;
+            echo $this->getHttpErrorHandler();
+        }
     }
 
-    $registry->run();
-  }
+    private function loadRegistry($modules)
+    {
+        $registry = new ModuleRegistry;
+
+        $registry->setApp($this);
+        $registry->setComposer($this->composer);
+
+        foreach ($modules as $file => $module) {
+            require $file;
+            $registry->add(new $module);
+        }
+
+        $registry->run();
+    }
 }

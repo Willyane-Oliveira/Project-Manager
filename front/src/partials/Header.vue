@@ -8,16 +8,20 @@
             <v-icon>dashboard</v-icon>
           </v-list-tile-action>
           <v-list-tile-content>
-            <v-list-tile-title> Projects </v-list-tile-title>
+            <v-list-tile-title>
+              Projects
+            </v-list-tile-title>
           </v-list-tile-content>
         </v-list-tile>
 
-        <v-list-tile @click="">
+        <v-list-tile to="/schedules">
           <v-list-tile-action>
             <v-icon>today</v-icon>
           </v-list-tile-action>
           <v-list-tile-content>
-            <v-list-tile-title> Schedule </v-list-tile-title>
+            <v-list-tile-title>
+              Schedule
+            </v-list-tile-title>
           </v-list-tile-content>
         </v-list-tile>
 
@@ -35,12 +39,11 @@
   </div>
 </template>
 
-// drawer manages whether the navigation drawer is open or closed
 <script>
 export default {
   data() {
     return {
-      drawer: true //when the navigation is open
+      drawer: true
     }
   }
 }

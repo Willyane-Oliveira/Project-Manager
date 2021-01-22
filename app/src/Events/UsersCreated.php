@@ -1,8 +1,8 @@
 <?php
 
-namespace projectmanager;
+namespace App\Events;
 
-class CrudCreated
+class UsersCreated
 {
   public function __invoke($e)
   {

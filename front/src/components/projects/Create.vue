@@ -61,7 +61,7 @@
           <v-time-picker
             v-model="due_date_time">
 
-            <v-btn flat color="secondary" @click="menuTm=false">Cancel</v-btn>
+            <v-btn flat color="secondary" @click="menuTm = false">Cancel</v-btn>
             <v-btn flat color="primary" @click="$refs.menuTime.save(due_date_time)">OK</v-btn>
           </v-time-picker>
         </v-menu>
@@ -86,14 +86,13 @@ export default {
       due_date_time: '12:00',
       validation: {
         title: [
-          (v) => !!v || "Title is mandatory"
+          (v) => !!v || "Title is required"
           ]
       }
     }
   },
-  methods:{
-    submit(){
-      this.data.user_id = 1;
+  methods: {
+    submit() {
       this.data.due_date = this.due_date + ' ' + this.due_date_time + ':00';
       this.$store.dispatch('projects/create', this.data);
     }

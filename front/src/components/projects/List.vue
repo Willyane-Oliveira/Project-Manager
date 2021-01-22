@@ -1,7 +1,7 @@
 <!--Project Listing Template-->
 <template>
   <v-layout row wrap>
-    <v-flex xs4 v-for="project in projects" :key="project.id">
+    <v-flex xs3 v-for="project in projects" :key="project.id">
       <v-card color="teal lighten-1" class="white--text">
         <v-card-title>
           <div class="headline">{{ project.title}}</div>
@@ -15,7 +15,7 @@
       </v-card>
     </v-flex>
 
-    <v-flex xs4>
+    <v-flex xs3>
       <projects-create></projects-create>
     </v-flex>
   </v-layout>
@@ -25,7 +25,7 @@
 import ProjectCreate from './Create';
 export default {
   computed: {
-    projects(){
+    projects() {
       return this.$store.state.projects.all;
     }
   },

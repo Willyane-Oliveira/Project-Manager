@@ -3,7 +3,6 @@ import axios from 'axios';
 const qs = require('qs');
 
 export default function (endpoint) {
-
   const state = {
     all: []
   }
@@ -39,7 +38,7 @@ export default function (endpoint) {
     },
 
     create(context, data) {
-      data = qs.stringify(data); //converts data to string
+      data = qs.stringify(data);
       return axios.post(endpoint, data).then((res) => {
         context.commit('merge', res.data);
       });

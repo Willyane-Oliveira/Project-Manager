@@ -15,63 +15,71 @@ abstract class Model
   
   //connect with db
   public function __construct(Container $container)
-  {
-    $this->db = $container['db'];
-    $this->events = $container['events'];
-    $this->queryBuilder = new QueryBuilder;
+    {
+        $this->db = $container['db'];
+        $this->events = $container['events'];
+        $this->queryBuilder = new QueryBuilder;
 
-    if(!$this->table){
-      $table = explode('\\', \get_called_class());//explode the called class
-      $table = array_pop($table);//Pick the element up from the end of array
-      $this->table = \strtolower($table);//Make a string lowercase
+        if (!$this->table) {
+          $table = explode('\\', \get_called_class());//explode the called class
+          $table = array_pop($table);//Pick the element up from the end of array
+          $this->table = strtolower($table);//Make a string lowercase
     }
   }
 
   public function get(array $conditions)
-  {
-    $query = $this->queryBuilder->select($this->table)
-      ->where($conditions)->getData();
+    {
+        $query = $this->queryBuilder->select($this->table)
+            ->where($conditions)
+            ->getData();
 
-    $stmt = $this->db->prepare($query->sql);
-    $stmt->execute($query->bind);
+        $stmt = $this->db->prepare($query->sql);
+        $stmt->execute($query->bind);
 
-    return $stmt->fetch(\PDO::FETCH_ASSOC);
-  }
+        return $stmt->fetch(\PDO::FETCH_ASSOC);
+    }
   
-  public function all(array $conditions=[])
-  {
-    $query = $this->queryBuilder->select($this->table)
-    ->where($conditions)->getData();
-    
-    $stmt = $this->db->prepare($query->sql);
-    $stmt->execute($query->bind);
+    public function all(array $conditions = [])
+    {
+        $query = $this->queryBuilder->select($this->table)
+            ->where($conditions)
+            ->getData();
 
-    return $stmt->fetchAll(\PDO::FETCH_ASSOC);
-  }
+        $stmt = $this->db->prepare($query->sql);
+        $stmt->execute($query->bind);
+
+        return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+    }
   
-  public function create(array $data)
-  {
-    $this->events->trigger('creating.' . $this->table, null, $data);
+    public function create(array $data)
+    {
+        $this->events->trigger('creating.' . $this->table, null, $data);
 
-    $query = $this->queryBuilder->insert(`$this->table`, $data)->getData();
+        $data = $this->setData($data);
 
-    $stmt = $this->db->prepare($query->sql);
-    $stmt->execute($query->bind);
+        $query = $this->queryBuilder->insert($this->table, $data)
+            ->getData();
 
-    $result = $this->get(['id'=>$this->db->lastInsertId()]);
+        $stmt = $this->db->prepare($query->sql);
+        $stmt->execute($query->bind);
+
+        $result = $this->get(['id'=>$this->db->lastInsertId()]);
     //Considers the last Id entered by Get method
 
     $this->events->trigger('created.' . $this->table, null, $result);
 
     return $result;
-  }
+}
 
-  public function update(array $conditions, array $data)
-  {
+public function update(array $conditions, array $data)
+{
     $this->events->trigger('updating.' . $this->table, null, $data);
 
+    $data = $this->setData($data);
+
     $query = $this->queryBuilder->update($this->table, $data)
-      ->where($conditions)->getData();
+        ->where($conditions)
+        ->getData();
 
     $stmt = $this->db->prepare($query->sql);
     $stmt->execute(array_values($query->bind));
@@ -81,16 +89,17 @@ abstract class Model
     $this->events->trigger('updated.' . $this->table, null, $result);
 
     return $result;
-  }
+}
 
-  public function delete(array $conditions)
-  {
+public function delete(array $conditions)
+{
     $result = $this->get($conditions);
 
     $this->events->trigger('deleting.' . $this->table, null, $result);
 
     $query = $this->queryBuilder->delete($this->table)
-      ->where($conditions)->getData();
+        ->where($conditions)
+        ->getData();
 
     $stmt = $this->db->prepare($query->sql);
     $stmt->execute($query->bind);
@@ -98,5 +107,21 @@ abstract class Model
     $this->events->trigger('deleted.' . $this->table, null, $result);
 
     return $result;
-  }
+}
+
+  //Changing values ​​before they are saved to the DB
+  protected function setData($data)
+    {
+        foreach ($data as $field => $value) {
+            $method = str_replace('_', '', $field);
+            $method = ucwords($method);
+            $method = str_replace(' ', '', $method);
+            $method = "set{$method}";
+            if (method_exists($this, $method)) {
+                $data[$field] = $this->$method($value);
+            }
+        }
+
+        return $data;
+    }
 }

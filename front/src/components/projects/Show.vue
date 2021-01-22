@@ -24,12 +24,12 @@ import showTask from '../tasks/Show';
 
 export default {
   computed: {
-    project(){
+    project() {
       const id = this.$route.params.id;
       return this.$store.getters['projects/byId'](id);
     }
   },
-  components:{
+  components: {
     sections,
     'show-task': showTask
   }

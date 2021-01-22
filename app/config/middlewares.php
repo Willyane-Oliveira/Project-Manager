@@ -4,16 +4,16 @@ $app->middleware('before', function ($c){
   session_start();
 });
 
+//To protects api routes with authentication
 $app->middleware('before', function ($c){
-  //header('Content-Type: application/json');
-});
+  if (!preg_match('/^\/api\/*./', $c['router']->getCurrentUrl())) {
+    return;
+}
 
-/*
-$app->middleware('after', function ($c){
-  echo 'after';
-});
+$data = (new \App\Controllers\UsersController)->getCurrentUser($c);
 
-$app->middleware('after', function ($c){
-  echo 'after 2';
-});
-*/
+//returns the logged in user
+$c['loggedUser'] = function () use ($data) {
+    return $data;
+};
+}); 

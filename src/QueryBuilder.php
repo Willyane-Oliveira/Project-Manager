@@ -59,7 +59,7 @@ class QueryBuilder
       return $this;
     }
 
-    if(!$this->sql){
+    if(!$this->sql) {
       throw new \Exception
       ("select(), update() or delete() is required before where() method");
     }

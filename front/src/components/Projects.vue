@@ -15,10 +15,10 @@
 export default {
   data() {
     return {
-      message: "Project Manager",
-    };
+      message: "Project Manager"
+    }
   },
-  mounted(){
+  mounted() {
     this.$store.dispatch('projects/getAll');
   }
 }
