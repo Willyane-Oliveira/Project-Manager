@@ -32,6 +32,7 @@ export default function (endpoint) {
       if (id) {
         url += '?id=' + id;
       }
+
       return axios.get(url).then((res) => {
         context.commit('updateAll', res.data)
       })

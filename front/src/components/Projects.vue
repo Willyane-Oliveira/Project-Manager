@@ -7,7 +7,6 @@
     <v-container grid-list-md>
       <router-view></router-view>
     </v-container>
-
   </v-layout>
 </template>
 
@@ -15,18 +14,18 @@
 export default {
   data() {
     return {
-      message: "Project Manager"
-    }
+      mensagem: "Welcome",
+    };
   },
   mounted() {
-    this.$store.dispatch('projects/getAll');
-  }
-}
+    this.$store.dispatch("projects/getAll");
+  },
+};
 </script>
 
 <style>
-.s {
-  background-color: rgb(73, 0, 126);
+.red {
+  background-color: red;
   color: white;
 }
 </style>

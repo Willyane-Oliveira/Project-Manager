@@ -14,7 +14,6 @@
 
       <v-divider></v-divider>
     </div>
-
   </v-list>
 </template>
 
@@ -23,9 +22,7 @@ import { eventHub } from '../../eventHub';
 import _ from 'underscore';
 
 export default {
-  props: [
-    'section'
-  ],
+  props: ['section'],
   computed: {
     tasks() {
       const tasks = _.filter(this.$store.state.tasks.all, (data) => {

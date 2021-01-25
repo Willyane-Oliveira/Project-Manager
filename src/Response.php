@@ -31,7 +31,7 @@ class Response
         if (is_array($response)) {
             $response = json_encode($response);
         }
-        
+
         echo $response;
-    } 
-  }
+    }
+}

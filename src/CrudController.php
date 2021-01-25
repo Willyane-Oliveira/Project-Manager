@@ -31,13 +31,13 @@ abstract class CrudController
   public function update($c, $request)
   {
     $id = $request->attributes->get(1);
-    return $c[$this->getModel()]->update(['id' =>$id], $request->request->all());
+    return $c[$this->getModel()]->update(['id' => $id], $request->request->all());
   }
 
   //will remove a register
   public function delete($c, $request)
   {
     $id = $request->attributes->get(1);
-    return $c[$this->getModel()]->delete(['id' =>$id]);
+    return $c[$this->getModel()]->delete(['id' => $id]);
   }
 }

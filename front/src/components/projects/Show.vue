@@ -7,31 +7,29 @@
       <p>{{ project.description }}</p>
     </v-flex>
 
-    <sections/>
+    <sections />
 
     <v-flex xs12>
       <v-btn to="/projects">Back</v-btn>
     </v-flex>
 
-    <show-task/>
-
+    <show-task />
   </v-layout>
 </template>
 
 <script>
-import sections from '../sections/List';
-import showTask from '../tasks/Show';
-
+import sections from "../sections/List";
+import showTask from "../tasks/Show";
 export default {
   computed: {
     project() {
       const id = this.$route.params.id;
-      return this.$store.getters['projects/byId'](id);
-    }
+      return this.$store.getters["projects/byId"](id);
+    },
   },
   components: {
     sections,
-    'show-task': showTask
-  }
-}
+    "show-task": showTask,
+  },
+};
 </script>

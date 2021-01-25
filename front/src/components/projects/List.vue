@@ -2,12 +2,12 @@
 <template>
   <v-layout row wrap>
     <v-flex xs3 v-for="project in projects" :key="project.id">
-      <v-card color="teal lighten-1" class="white--text">
-        <v-card-title>
-          <div class="headline">{{ project.title}}</div>
+      <v-card color="blue-grey darken-2" class="white--text">
+        <v-card-title primary-title>
+          <div class="headline">{{ project.title }}</div>
         </v-card-title>
         <v-card-text>
-          {{ project.description}}
+          {{ project.description }}
         </v-card-text>
         <v-card-actions>
           <v-btn flat dark :to="'/projects/' + project.id">More</v-btn>
@@ -22,15 +22,15 @@
 </template>
 
 <script>
-import ProjectCreate from './Create';
+import ProjectCreate from "./Create";
 export default {
   computed: {
     projects() {
       return this.$store.state.projects.all;
-    }
+    },
   },
   components: {
-    'projects-create': ProjectCreate
-  }
-}
+    "projects-create": ProjectCreate,
+  },
+};
 </script>

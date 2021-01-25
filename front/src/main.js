@@ -8,10 +8,19 @@ import 'vuetify/dist/vuetify.min.css';
 import 'material-design-icons-iconfont/dist/material-design-icons.css';
 import './axios';
 import store from './store';
+import Axios from 'axios'
 
 Vue.config.productionTip = false
 
 Vue.use(Vuetify);
+
+Vue.prototype.$http = Axios;
+const token = localStorage.getItem('token')
+console.log('token--' + token)
+
+if (token) {
+  Vue.prototype.$http.defaults.headers.common['Authorization'] = token
+}
 
 /* eslint-disable no-new */
 new Vue({

@@ -1,10 +1,8 @@
 <!--create a new section-->
 <template>
-  <v-card color="indigo lighten-3">
+  <v-card color="blue-grey lighten-5">
     <v-card-title primary-title>
-      <div class="headline">
-        New Section
-      </div>
+      <div class="headline">New Section</div>
     </v-card-title>
     <v-card-text>
       <v-form v-model="valid" ref="form">
@@ -12,19 +10,16 @@
           v-model="data.title"
           label="Title"
           :rules="validation.title"
-          required>
-        </v-text-field>
+          required
+        ></v-text-field>
 
         <v-text-field
           v-model="data.description"
           label="Description"
-          outline>
-        </v-text-field>
+          outline
+        ></v-text-field>
 
-        <v-btn
-          :disabled="!valid"
-          @click="submit">Submit
-        </v-btn>
+        <v-btn :disabled="!valid" @click="submit">Add</v-btn>
       </v-form>
     </v-card-text>
   </v-card>
@@ -37,19 +32,19 @@ export default {
       data: {},
       valid: false,
       validation: {
-        title:[
-          v=> !!v || 'Title is required'
-        ]
+        title: [
+          v => !!v || 'Title is required'
+          ]
       }
     }
   },
-  methods:{
-    submit(){
-      this.data.project_id = this.$route.params.id;
-      this.$store.dispatch('sections/create', this.data).then((res) => {
-        this.$refs.form.reset();
-      })
-    }
-  }
-}
+  methods: {
+    submit() {
+            this.data.project_id = this.$route.params.id;
+            this.$store.dispatch('sections/create', this.data).then((res) => {
+                this.$refs.form.reset();
+      });
+    },
+  },
+};
 </script>

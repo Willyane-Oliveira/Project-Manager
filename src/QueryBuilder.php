@@ -14,7 +14,7 @@ class QueryBuilder
   }
 
   public function insert(string $table, array $data)
-  {  
+  {
     $sql = "INSERT INTO `{$table}` (%s) VALUES (%s)";
 
     $columns = array_keys($data);
@@ -37,7 +37,7 @@ class QueryBuilder
 
     $columns = array_keys($data);
 
-    foreach($columns as &$column){
+    foreach ($columns as &$column) {
       $column = $column . '=?';
     }
 
@@ -47,6 +47,7 @@ class QueryBuilder
     return $this;
   }
 
+
   public function delete(string $table)
   {
     $this->sql = "DELETE FROM `{$table}`";
@@ -55,28 +56,26 @@ class QueryBuilder
 
   public function where(array $conditions)
   {
-    if($conditions == []){
+    if ($conditions == []) {
       return $this;
     }
 
-    if(!$this->sql) {
-      throw new \Exception
-      ("select(), update() or delete() is required before where() method");
+    if (!$this->sql) {
+      throw new \Exception("selete(), update() or delete() is required before where() method");
     }
 
     $columns = array_keys($conditions);
 
-    foreach($columns as &$column){
+    foreach ($columns as &$column) {
       $column = $column . '=?';
     }
 
     $this->bind = array_merge($this->bind, array_values($conditions));
-    $this->sql .= 'WHERE' . implode(' and ', $columns);
-
+    $this->sql .= ' WHERE ' . implode(' and ', $columns);
     return $this;
   }
 
-  public function getData() :\stdClass
+  public function getData(): \stdClass
   {
     $query = new \stdClass;
     $query->sql = $this->sql;
@@ -85,7 +84,7 @@ class QueryBuilder
     //zero previous queries so that new ones can be created
     $this->sql = null;
     $this->bind = [];
-    
+
     return $query;
   }
 }

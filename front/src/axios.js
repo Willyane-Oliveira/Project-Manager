@@ -3,8 +3,9 @@ import store from './store';
 
 window.axios = axios;
 const token = window.localStorage.getItem('token');
+console.log('axios token--' + token);
 
 if (token) {
-    window.axios.defaults.headers.common['Authorization'] = $2y$10$0WGRT5o1Xd3rlCqKHhWZ.gP8tsA5d.b5kMddRysMGG2Asl6uvqae;
+    window.axios.defaults.headers.common['Authorization'] = token;
     store.commit('auth/updateLogged', true);
 }

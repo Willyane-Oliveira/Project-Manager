@@ -18,51 +18,51 @@ class App
   ];
 
   public function __construct($composer, array $modules, Container $container = null)
-  {
-    $this->container = $container;
-    $this->composer = $composer;
-
-    if($this->container === null)
     {
-      $this->container = new Container;
+        $this->container = $container;
+        $this->composer = $composer;
+
+        if ($this->container === null)
+        {
+            $this->container = new Container;
+        }
+
+        $this->loadRegistry($modules);
     }
 
-    $this->loadRegistry($modules);
-  }
+    public function middleware($on, $callback)
+    {
+        $this->middlewares[$on][] = $callback;
+    }
 
-  public function middleware($on, $callback)
-  {
-    $this->middlewares[$on][] = $callback;
-  }
-  
-  public function getContainer()
-  {
-    return $this->container;
-  }
+    public function getContainer()
+    {
+        return $this->container;
+    }
 
-  public function getRouter()
-  {
+    public function getRouter()
+    {
     //If router does not exists, create it.
-    if (!$this->container->offsetExists('router')){
+    if (!$this->container->offsetExists('router')) {
       $this->container['router'] = function () {
-        return new Router;
-      };  
-    }
-
-    return $this->container['router'];
+          return new Router;
+      };
   }
-  
-  public function getResponder()
-  {
+
+  return $this->container['router'];
+}
+
+public function getResponder()
+{
     //If responder does not exists, create it.
-    if (!$this->container->offsetExists('responder')){
+    if (!$this->container->offsetExists('responder')) {
       $this->container['responder'] = function () {
-        return new Response;
-      };     
-    }
-
-    return $this->container['responder'];
+          return new Response;
+      };
   }
+
+  return $this->container['responder'];
+}
 
   //will handle errors
   public function getHttpErrorHandler()
