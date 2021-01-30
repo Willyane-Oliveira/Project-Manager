@@ -1,35 +1,36 @@
 <!--Project Visualization Component-->
 <template>
-  <v-layout row wrap>
-    <v-flex xs12>
-      <h2 class="mb-2">{{ project.title }}</h2>
+    <v-layout row wrap>
+        <v-flex xs12>
+            <h2 class="mb-2">{{ project.title }}</h2>
 
-      <p>{{ project.description }}</p>
-    </v-flex>
+            <p>{{ project.description }}</p>
+        </v-flex>
 
-    <sections />
+        <sections/>
 
-    <v-flex xs12>
-      <v-btn to="/projects">Back</v-btn>
-    </v-flex>
+        <v-flex xs12>
+            <v-btn to="/projects">Back</v-btn>
+        </v-flex>
 
-    <show-task />
-  </v-layout>
+        <show-task/>
+
+    </v-layout>
 </template>
 
 <script>
-import sections from "../sections/List";
-import showTask from "../tasks/Show";
+import sections from '../sections/List';
+import showTask from '../tasks/Show';
 export default {
-  computed: {
-    project() {
-      const id = this.$route.params.id;
-      return this.$store.getters["projects/byId"](id);
+    computed: {
+        project() {
+            const id = this.$route.params.id;
+            return this.$store.getters['projects/byId'](id);
+        }
     },
-  },
-  components: {
-    sections,
-    "show-task": showTask,
-  },
-};
+    components: {
+        sections,
+        'show-task': showTask
+    }
+}
 </script>

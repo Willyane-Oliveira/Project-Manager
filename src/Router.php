@@ -8,8 +8,7 @@ class Router
 {
   private $routes = [];
 
-  //callback determines what will happen when a route is called
-  public function add(STRING $method, string $pattern, $callback)
+    public function add(STRING $method, string $pattern, $callback)
     {
         $method = strtolower($method);
         $pattern = '/^' . str_replace('/', '\/', $pattern) . '$/';
@@ -19,30 +18,29 @@ class Router
     public function run()
     {
         $url = $this->getCurrentUrl();
-        $method = strtolower($_SERVER['REQUEST_METHOD']); //retrieve http method
+        $method = strtolower($_SERVER['REQUEST_METHOD']);
 
         if (empty($this->routes[$method])) {
-          throw new HttpException('Page not found', 404);
-      }
+            throw new HttpException('Page not found', 404);
+        }
 
-    //checks if the route exists and returns it
-    foreach ($this->routes[$method] as $route => $action) {
-      if (preg_match($route, $url, $params)) {
-          return compact('action', 'params'); //will create an array
-      }
+        foreach ($this->routes[$method] as $route => $action) {
+            if (preg_match($route, $url, $params)) {
+                return compact('action', 'params');
+            }
+        }
+
+        throw new HttpException('Page not found', 404);
     }
-    throw new HttpException('Page not found', 404);
-  }
 
-  public function getCurrentUrl()
-  {
-      $url = $_SERVER['PATH_INFO'] ?? '/';
+    public function getCurrentUrl()
+    {
+        $url = $_SERVER['PATH_INFO'] ?? '/';
 
-    //Set url length
-    if (strlen($url) > 1) {
-      $url = rtrim($url, '/');
-  }
+        if (strlen($url) > 1) {
+            $url = rtrim($url, '/');
+        }
 
-  return $url;
-  }
+        return $url;
+    }
 }

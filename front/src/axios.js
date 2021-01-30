@@ -3,7 +3,6 @@ import store from './store';
 
 window.axios = axios;
 const token = window.localStorage.getItem('token');
-console.log('axios token--' + token);
 
 if (token) {
     window.axios.defaults.headers.common['Authorization'] = token;

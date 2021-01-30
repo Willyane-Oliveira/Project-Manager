@@ -24,10 +24,8 @@ $container['db'] = function ($c) {
   $password = $c['settings']['db']['password'];
   $options = $c['settings']['db']['options'];
 
-  //Connection to database
   $pdo = new \PDO($dsn, $username, $password, $options);
 
-  //Show db connection errors
   $pdo->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
 
   return $pdo;

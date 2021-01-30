@@ -2,55 +2,55 @@ import _ from 'underscore';
 import axios from 'axios';
 const qs = require('qs');
 
-export default function (endpoint) {
+export default function (endpoit) {
   const state = {
-    all: []
+      all: []
   }
 
   const getters = {
-    byId: state => (id) => {
-      const data = _.find(state.all, (project) => {
-        return project.id == id;
-      });
+      byId: state => (id) => {
+          const data = _.find(state.all, (project) => {
+              return project.id == id;
+          });
 
-      return data || {}
-    }
+          return data || {}
+      }
   }
 
   const mutations = {
-    updateAll(state, data) {
-      state.all = data
-    },
-    merge(state, data) {
-      state.all.push(data);
-    }
+      updateAll(state, data) {
+          state.all = data
+      },
+      merge(state, data) {
+          state.all.push(data);
+      }
   }
 
   const actions = {
-    getAll(context, id) {
-      let url = endpoint;
-      if (id) {
-        url += '?id=' + id;
+      getAll(context, id) {
+          let url = endpoit;
+          if (id) {
+              url += '?id=' + id;
+          }
+
+          return axios.get(url).then((res) => {
+              context.commit('updateAll', res.data)
+          })
+      },
+
+      create(context, data) {
+          data = qs.stringify(data);
+          return axios.post(endpoit, data).then((res) => {
+              context.commit('merge', res.data);
+          });
       }
-
-      return axios.get(url).then((res) => {
-        context.commit('updateAll', res.data)
-      })
-    },
-
-    create(context, data) {
-      data = qs.stringify(data);
-      return axios.post(endpoint, data).then((res) => {
-        context.commit('merge', res.data);
-      });
-    }
   }
 
   return {
-    state,
-    actions,
-    mutations,
-    getters,
-    namespaced: true
+      state,
+      actions,
+      mutations,
+      getters,
+      namespaced: true
   }
 }

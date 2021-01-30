@@ -8,12 +8,12 @@ $app->middleware('before', function ($c) {
 $app->middleware('before', function ($c) {
   if (!preg_match('/^\/api\/*./', $c['router']->getCurrentUrl())) {
       return;
-}
+  }
 
-$data = (new \App\Controllers\UsersController)->getCurrentUser($c);
+  $data = (new \App\Controllers\UsersController)->getCurrentUser($c);
 
 //returns the logged in user
-$c['loggeduser'] = function () use ($data) {
+$c['loggedUser'] = function () use ($data) {
   return $data;
 };
-}); 
+});

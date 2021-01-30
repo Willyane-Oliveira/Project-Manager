@@ -11,13 +11,13 @@ use projectmanager\Modules\ModuleRegistry;
 class App
 {
   private $composer;
-  private $container;
-  private $middlewares = [
-    'before' => [],
-    'after' => [],
-  ];
+    private $container;
+    private $middlewares = [
+        'before' => [],
+        'after' => [],
+    ];
 
-  public function __construct($composer, array $modules, Container $container = null)
+    public function __construct($composer, array $modules, Container $container = null)
     {
         $this->container = $container;
         $this->composer = $composer;
@@ -42,53 +42,50 @@ class App
 
     public function getRouter()
     {
-    //If router does not exists, create it.
-    if (!$this->container->offsetExists('router')) {
-      $this->container['router'] = function () {
-          return new Router;
-      };
-  }
+        if (!$this->container->offsetExists('router')) {
+            $this->container['router'] = function () {
+                return new Router;
+            };
+        }
 
-  return $this->container['router'];
-}
-
-public function getResponder()
-{
-    //If responder does not exists, create it.
-    if (!$this->container->offsetExists('responder')) {
-      $this->container['responder'] = function () {
-          return new Response;
-      };
-  }
-
-  return $this->container['responder'];
-}
-
-  //will handle errors
-  public function getHttpErrorHandler()
-  {
-    if (!$this->container->offsetExists('HttpErrorHandler')){
-      $this->container['HttpErrorHandler'] = function ($c) {
-        header('Content-Type: application/json');
-
-        $response = json_encode([
-          'code' => $c['exception']->getCode(),
-          'error' => $c['exception']->getMessage()
-        ]);
-
-        return $response;
-      };     
+        return $this->container['router'];
     }
 
-    return $this->container['HttpErrorHandler'];
-  }
+    public function getRosponder()
+    {
+        if (!$this->container->offsetExists('responder')) {
+            $this->container['responder'] = function () {
+                return new Response;
+            };
+        }
 
-  public function run()
+        return $this->container['responder'];
+    }
+
+    public function getHttpErrorHandler()
+    {
+        if (!$this->container->offsetExists('httpErrorHandler')) {
+            $this->container['httpErrorHandler'] = function ($c) {
+                header('Content-Type: application/json');
+
+                $response = json_encode([
+                    'code' => $c['exception']->getCode(),
+                    'error' => $c['exception']->getMessage()
+                ]);
+
+                return $response;
+            };
+        }
+
+        return $this->container['httpErrorHandler'];
+    }
+
+    public function run()
     {
         try {
             $result = $this->getRouter()->run();
 
-            $response = $this->getResponder();
+            $response = $this->getRosponder();
             $params = [
                 'container' => $this->container,
                 'params' => $result['params'],

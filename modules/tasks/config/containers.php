@@ -1,7 +1,7 @@
 <?php
 
 $container['projects_model'] = function ($c) {
-  $id = $c['loggeduser']['user']->id;
+  $id = $c['loggedUser']['user']->id;
   $projects = new \projectmanager\Tasks\Models\Projects($c);
   $projects->user_id = $id;
 
@@ -9,7 +9,7 @@ $container['projects_model'] = function ($c) {
 };
 
 $container['tasks_model'] = function ($c) {
-  $id = $c['loggeduser']['user']->id;
+  $id = $c['loggedUser']['user']->id;
   $tasks = new \projectmanager\Tasks\Models\Tasks($c);
   $tasks->user_id = $id;
 
@@ -17,7 +17,7 @@ $container['tasks_model'] = function ($c) {
 };
 
 $container['sections_model'] = function ($c) {
-  $id = $c['loggeduser']['user']->id;
+  $id = $c['loggedUser']['user']->id;
   $sections = new \projectmanager\Tasks\Models\Sections($c);
   $sections->user_id = $id;
 
@@ -25,8 +25,8 @@ $container['sections_model'] = function ($c) {
 };
 
 $container['subtasks_model'] = function ($c) {
-  $id = $c['loggeduser']['user']->id;
-  $subtasks = new \projectmanager\Tasks\Models\Subtasks($c);
+  $id = $c['loggedUser']['user']->id;
+  $subtasks = new \projectmanager\Tasks\Models\SubTasks($c);
   $subtasks->user_id = $id;
 
   return $subtasks;

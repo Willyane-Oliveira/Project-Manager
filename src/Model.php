@@ -13,7 +13,6 @@ abstract class Model
     protected $queryBuilder;
     protected $table;
 
-    //connect with db
     public function __construct(Container $container)
     {
         $this->db = $container['db'];
@@ -21,9 +20,9 @@ abstract class Model
         $this->queryBuilder = new QueryBuilder;
 
         if (!$this->table) {
-            $table = explode('\\', \get_called_class()); //explode the called class
-            $table = array_pop($table); //Pick the element up from the end of array
-            $this->table = strtolower($table); //Make a string lowercase
+            $table = explode('\\', \get_called_class());
+            $table = array_pop($table);
+            $this->table = strtolower($table);
         }
     }
 
@@ -63,8 +62,7 @@ abstract class Model
         $stmt = $this->db->prepare($query->sql);
         $stmt->execute($query->bind);
 
-        $result = $this->get(['id' => $this->db->lastInsertId()]);
-        //Considers the last Id entered by Get method
+        $result = $this->get(['id'=>$this->db->lastInsertId()]);
 
         $this->events->trigger('created.' . $this->table, null, $result);
 
@@ -109,7 +107,6 @@ abstract class Model
         return $result;
     }
 
-    //Changing values ​​before they are saved to the DB
     protected function setData($data)
     {
         foreach ($data as $field => $value) {
